@@ -1,0 +1,38 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyHealthController : MonoBehaviour
+{
+    [SerializeField] private HealthBar healthBarPrefab;
+
+    private Dictionary<EnemyHealth, HealthBar> healthBars = new Dictionary<EnemyHealth, HealthBar>();
+    // Start is called before the first frame update
+    void Awake()
+    {
+        EnemyHealth.OnHealthAdded += AddHealthBar;
+        EnemyHealth.OnHealthRemoved += RemoveHealthBar;
+    }
+
+   private void AddHealthBar(EnemyHealth health)
+    {
+        if (healthBars.ContainsKey(health) == false)
+        {
+            var hb = Instantiate(healthBarPrefab, transform);
+            healthBars.Add(health, hb);
+            hb.SetHealth(health);
+        }
+    }
+    private void RemoveHealthBar(EnemyHealth health)
+    {
+        if (healthBars.ContainsKey(health))
+        {
+           if (healthBars[health])
+            {
+                Destroy(healthBars[health].gameObject);
+                healthBars.Remove(health);
+            }
+            
+        }
+    }
+}
