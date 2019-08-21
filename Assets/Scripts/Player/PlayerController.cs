@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
+﻿using UnityEngine;
 
 public enum PlayerStates
 {
@@ -44,13 +40,12 @@ public class PlayerController : MonoBehaviour
     {
        if (Input.GetMouseButtonUp(0))
         {
-            equipmentController.equipmentSpawn.GetComponentInChildren<BoxCollider>().enabled = true;
+            
             // animationController.UpdateTrigger("SwordAttack1");  
             if (equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.locksMotion)
             {
                 playerMovement.canMove = false;
             }
-           
             animationController.PlayAnimation("2Hand-Sword-Attack1"); 
         }
 

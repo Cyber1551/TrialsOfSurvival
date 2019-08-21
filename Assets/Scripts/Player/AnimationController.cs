@@ -32,15 +32,23 @@ public class AnimationController : MonoBehaviour
     }
     private void FootR() { }
     private void FootL() { }
+
+    private void MeleeStart()
+    {
+        equipmentController.equipmentSpawn.GetComponentInChildren<BoxCollider>().enabled = true;
+    }
     private void Hit() 
     {
-        StartCoroutine(HitCoroutine());
-        
+        equipmentController.equipmentSpawn.GetComponentInChildren<BoxCollider>().enabled = false;
+        playerMovement.canMove = true;
+    }
+     private void MeleeEnd()
+    {
+       
     }
     IEnumerator HitCoroutine()
     {
         yield return new WaitForSeconds(0.1f);
-        equipmentController.equipmentSpawn.GetComponentInChildren<BoxCollider>().enabled = false;
-        playerMovement.canMove = true;
+       
     }
 }
