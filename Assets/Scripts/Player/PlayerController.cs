@@ -40,15 +40,20 @@ public class PlayerController : MonoBehaviour
     {
        if (Input.GetMouseButtonUp(0))
         {
-            
-            // animationController.UpdateTrigger("SwordAttack1");  
             if (equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.locksMotion)
             {
                 playerMovement.canMove = false;
             }
             animationController.PlayAnimation("2Hand-Sword-Attack1"); 
         }
-
+        else if (Input.GetMouseButtonUp(1))
+        {
+            if (equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.locksMotion)
+            {
+                playerMovement.canMove = false;
+            }
+            animationController.PlayAnimation("2Hand-Sword-Attack2");
+        }
     }
     private void Attack ()
     {
