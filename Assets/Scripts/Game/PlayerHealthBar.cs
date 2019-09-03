@@ -6,11 +6,20 @@ using UnityEngine.UI;
 
 public class PlayerHealthBar : MonoBehaviour
 {
+    private const float DAMAGED_FADE_TIMER_MAX = 1f;
     [SerializeField] private Image foreground;
+    [SerializeField] private Image DamagedBar;
+    private float damageFadeTimer;
+    private Color damagedColor;
     [SerializeField] private float positionOffset;
     [SerializeField] private float updateSpeedSeconds = 0.2f;
     [SerializeField] private PlayerHealth health;
-
+    private void Awake()
+    {
+        damagedColor = DamagedBar.color;
+        damagedColor.a = 0f;
+        DamagedBar.color = damagedColor;
+    }
     public void SetHealth(PlayerHealth health)
     {
         this.health = health;
@@ -21,6 +30,14 @@ public class PlayerHealthBar : MonoBehaviour
         float hpPercent = (float)Hp / (float)MaxHealth;
         Vector3 randomPos = new Vector3(Random.Range(-1.5f, 1.5f), 2.25f, Random.Range(0f, 0.25f));
         DamagePopup.Create(health.transform.position + randomPos, transform.parent, amount, isCrit);
+        if (damagedColor.a <= 0)
+        {
+            DamagedBar.fillAmount = foreground.fillAmount;
+        }
+
+        damagedColor.a = 0.7f;
+        DamagedBar.color = damagedColor;
+        damageFadeTimer = DAMAGED_FADE_TIMER_MAX;
         StartCoroutine(ChangeToPct(hpPercent));
     }
     public void UpdateMaxHealth(int Hp, int MaxHealth)
@@ -41,7 +58,19 @@ public class PlayerHealthBar : MonoBehaviour
         }
         foreground.fillAmount = pc;
     }
-
+    private void Update()
+    {
+        if (damagedColor.a > 0)
+        {
+            damageFadeTimer -= Time.deltaTime;
+            if (damageFadeTimer < 0)
+            {
+                float fadeAmount = 5f;
+                damagedColor.a -= fadeAmount * Time.deltaTime;
+                DamagedBar.color = damagedColor;
+            }
+        }
+    }
     private void OnDestroy()
     {
         health.OnHealthChanged -= HandleHealthChanged;
