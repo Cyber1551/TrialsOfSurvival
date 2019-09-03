@@ -12,7 +12,10 @@ public class Enemy : MonoBehaviour
         
         if (other.gameObject.CompareTag ("Weapon"))
         {
-           
+            if( other.gameObject.GetComponentInParent<BaseStats>().AddExp())
+            {
+                other.gameObject.GetComponentInParent<PlayerHealth>().UpdateHealth();
+            }
             int damage = other.gameObject.GetComponent<Equipment>().equipment.Damage;
             int chance = Random.Range(0, 100);
             bool isCrit = false;

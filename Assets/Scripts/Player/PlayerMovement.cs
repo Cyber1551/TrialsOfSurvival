@@ -35,7 +35,6 @@ public class PlayerMovement : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
-                Debug.Log(Vector3.Distance(transform.position, hit.point));
                 if (Vector3.Distance(transform.position, hit.point) > 1.5)
                 {
                     lookPos = hit.point;

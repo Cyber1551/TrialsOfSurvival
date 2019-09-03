@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemyHealthController : MonoBehaviour
 {
-    [SerializeField] private HealthBar healthBarPrefab;
+    [SerializeField] private EnemyHealthBar healthBarPrefab;
 
-    private Dictionary<EnemyHealth, HealthBar> healthBars = new Dictionary<EnemyHealth, HealthBar>();
+    private Dictionary<EnemyHealth, EnemyHealthBar> healthBars = new Dictionary<EnemyHealth, EnemyHealthBar>();
     // Start is called before the first frame update
     void Awake()
     {

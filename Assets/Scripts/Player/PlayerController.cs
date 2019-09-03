@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public BaseEquipment equippedWeapon;
 
     public int critChanceTest = 1;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         animationController = GetComponent<AnimationController>();
         equipmentController = GetComponent<EquipmentController>();
-        
+
     }
 
     // Update is called once per frame
@@ -54,6 +55,11 @@ public class PlayerController : MonoBehaviour
             }
             animationController.PlayAnimation("2Hand-Sword-Attack2");
         }
+       else if (Input.GetKeyUp(KeyCode.I))
+        {
+            GetComponent<PlayerHealth>().TakeDamage(10, true);
+        }
+      
     }
     private void Attack ()
     {

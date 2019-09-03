@@ -9,7 +9,6 @@ public class EnemyHealth : MonoBehaviour
     public static event Action<EnemyHealth> OnHealthAdded = delegate { };
     public static event Action<EnemyHealth> OnHealthRemoved = delegate { };
 
-
     [SerializeField] private int MaxHealth;
     [SerializeField] private int Hp;
     public BaseEnemy stats;
