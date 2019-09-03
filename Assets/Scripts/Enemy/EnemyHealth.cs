@@ -9,8 +9,8 @@ public class EnemyHealth : MonoBehaviour
     public static event Action<EnemyHealth> OnHealthAdded = delegate { };
     public static event Action<EnemyHealth> OnHealthRemoved = delegate { };
 
-    [SerializeField] private int MaxHealth;
-    [SerializeField] private int Hp;
+    public int MaxHealth;
+    public int Hp;
     public BaseEnemy stats;
 
     public event Action<int, int, int, bool> OnHealthChanged = delegate { };
@@ -20,7 +20,11 @@ public class EnemyHealth : MonoBehaviour
     {
         MaxHealth = stats.BaseHealth;
         Hp = MaxHealth;
-        OnHealthAdded(this);  
+       
+    }
+    private void Start()
+    {
+        OnHealthAdded(this);
     }
     public void TakeDamage(int amount, bool isCrit)
     {
