@@ -35,13 +35,13 @@ public class DamagePopup : MonoBehaviour
         if (!isCrit)
         {
             //Normal
-            textMesh.fontSize = 36;
+            textMesh.fontSize = 25;
             color = Color.yellow; 
         }
         else
         {
             //Critical Hit
-            textMesh.fontSize = 45;
+            textMesh.fontSize = 30;
             color = Color.red;
         }
         textMesh.color = color;

@@ -9,6 +9,7 @@ public class PlayerHealthBar : MonoBehaviour
     private const float DAMAGED_FADE_TIMER_MAX = 1f;
     [SerializeField] private Image foreground;
     [SerializeField] private Image DamagedBar;
+    [SerializeField] private Text healthText;
     private float damageFadeTimer;
     private Color damagedColor;
     [SerializeField] private float positionOffset;
@@ -23,6 +24,7 @@ public class PlayerHealthBar : MonoBehaviour
     public void SetHealth(PlayerHealth health)
     {
         this.health = health;
+        healthText.text = "" + health.Health;
         this.health.OnHealthChanged += HandleHealthChanged;
     }
     private void HandleHealthChanged(int Hp, int MaxHealth, int amount, bool isCrit)
@@ -38,11 +40,13 @@ public class PlayerHealthBar : MonoBehaviour
         damagedColor.a = 0.7f;
         DamagedBar.color = damagedColor;
         damageFadeTimer = DAMAGED_FADE_TIMER_MAX;
+        healthText.text = "" + Hp;
         StartCoroutine(ChangeToPct(hpPercent));
     }
     public void UpdateMaxHealth(int Hp, int MaxHealth)
     {
         float hpPercent = (float)Hp / (float)MaxHealth;
+        healthText.text = "" + Hp;
         StartCoroutine(ChangeToPct(hpPercent));
     }
     private IEnumerator ChangeToPct(float pc)
