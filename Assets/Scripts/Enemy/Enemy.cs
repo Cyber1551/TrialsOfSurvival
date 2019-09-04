@@ -16,7 +16,7 @@ using UnityEngine.UI;
                 {
                     other.gameObject.GetComponentInParent<PlayerHealth>().UpdateHealth();
                 }
-                int damage = other.gameObject.GetComponent<Equipment>().equipment.Damage;
+                int damage = other.gameObject.GetComponent<Equipment>().equipment.Damage + other.gameObject.GetComponentInParent<BaseStats>().GetStat(Stat.Damage);
                 int chance = Random.Range(0, 100);
                 bool isCrit = false;
                 if (chance <= GameAssets.I.player.critChanceTest)

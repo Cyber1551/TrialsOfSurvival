@@ -16,7 +16,7 @@ public class PlayerHealth : MonoBehaviour
     private void OnEnable()
     {
         HealthBar.SetHealth(this);
-        MaxHealth = BaseMaxHealth + GetComponent<BaseStats>().GetHealth();
+        MaxHealth = BaseMaxHealth + GetComponent<BaseStats>().GetStat(Stat.Health);
         Health = MaxHealth;
         HealthBar.UpdateMaxHealth(Health, MaxHealth);
     }
@@ -33,7 +33,7 @@ public class PlayerHealth : MonoBehaviour
     public void UpdateHealth()
     {
         int currMaxHealth = MaxHealth;
-        MaxHealth = BaseMaxHealth + GetComponent<BaseStats>().GetHealth();
+        MaxHealth = BaseMaxHealth + GetComponent<BaseStats>().GetStat(Stat.Health);
 
         int diff = MaxHealth - currMaxHealth; 
         Debug.Log(diff);

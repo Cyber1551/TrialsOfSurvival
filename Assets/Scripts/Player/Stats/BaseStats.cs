@@ -8,6 +8,15 @@ public enum WeaponType
     Sword,
     Bow
 }
+public enum Stat
+{
+    Health,
+    Damage,
+    AttackSpeed,
+    CritDamage, 
+    CritChance 
+}
+
 
 public class BaseStats : MonoBehaviour
 {
@@ -27,8 +36,8 @@ public class BaseStats : MonoBehaviour
     {
         return WeaponLevels.Find(weapon => weapon.weaponType == CurrentWeapon).AddExp();
     }
-    public int GetHealth()
+    public int GetStat(Stat stat)
     {
-        return Progression.GetHealth(WeaponLevels.Find(weapon => weapon.weaponType == CurrentWeapon));
+        return Progression.GetStat(stat, WeaponLevels.Find(weapon => weapon.weaponType == CurrentWeapon));
     }
 }
