@@ -6,6 +6,7 @@ using UnityEngine;
 public class BaseSkill
 {
     public WeaponType weaponType;
+    public int MaxLevel;
     public int Level;
     public int MaxExp;
     public int Exp;
@@ -13,7 +14,7 @@ public class BaseSkill
     public bool AddExp()
     {
         Exp++;
-        if (Exp >= MaxExp)
+        if (Exp >= MaxExp && Level < MaxLevel)
         {
             LevelUp();
             return true;
@@ -23,7 +24,7 @@ public class BaseSkill
     private void LevelUp()
     {
         Exp = 0;
-        MaxExp += 5;
+        MaxExp += 3;
         Level++; 
     }
 }

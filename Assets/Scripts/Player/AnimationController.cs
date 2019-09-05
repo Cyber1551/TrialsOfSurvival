@@ -16,10 +16,14 @@ public class AnimationController : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
     }
 
-    // Update is called once per frame
-    void Update()
+    bool AnimatorIsPlaying()
     {
-        
+        return animator.GetCurrentAnimatorStateInfo(0).length >
+               animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    }
+    public bool AnimatorIsPlaying(string stateName)
+    {
+        return AnimatorIsPlaying() && animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
     public void UpdateAnimator(float forwardAmount, float turnAmount)
     {

@@ -8,8 +8,14 @@ public class PlayerProgression : ScriptableObject
 
     public int GetStat(Stat stat, BaseSkill weapon)
     {
+
         ProgressionStat weaponStat = weaponProgressionTypes.Find(w => w.weaponType == weapon.weaponType).stats.Find(s => s.stat == stat);
-        return weaponStat.Levels[weapon.Level - 1];
+
+        if (weapon.Level < weaponStat.Levels.Length)
+        {
+            return weaponStat.Levels[weapon.Level - 1];
+        }
+        return weaponStat.Levels[weaponStat.Levels.Length - 1];
     }
     [System.Serializable]
     class WeaponProgressionType

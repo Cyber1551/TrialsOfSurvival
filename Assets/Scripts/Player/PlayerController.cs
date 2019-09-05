@@ -39,8 +39,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if (Input.GetMouseButtonUp(0))
+       if (Input.GetMouseButton(0))
         {
+            if (animationController.AnimatorIsPlaying("2Hand-Sword-Attack1")) return;
+            else playerMovement.canMove = true;
+
             if (equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.locksMotion)
             {
                 playerMovement.canMove = false;

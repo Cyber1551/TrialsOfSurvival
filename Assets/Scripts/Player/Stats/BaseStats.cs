@@ -28,7 +28,7 @@ public class BaseStats : MonoBehaviour
     {
         WeaponLevels.ForEach(weapon =>
         {
-            weapon.Level = 1;
+            weapon.Level = 1;                             
             weapon.MaxExp = 5;
         });
     }
