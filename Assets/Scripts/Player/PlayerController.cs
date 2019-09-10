@@ -2,7 +2,7 @@
 
 public enum PlayerStates
 {
-   Idle, 
+   Idle,
    Moving,
    Attacking
 }
@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 {
     private PlayerInput playerInput;
     public AnimationController animationController;
-    public GameObject testAttack; 
+    public GameObject testAttack;
 
     public PlayerStates State = PlayerStates.Idle;
     private PlayerMovement playerMovement;
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        playerInput = PlayerInput.Instance; 
+        playerInput = PlayerInput.Instance;
         playerMovement = GetComponent<PlayerMovement>();
         animationController = GetComponent<AnimationController>();
         equipmentController = GetComponent<EquipmentController>();
@@ -41,14 +41,25 @@ public class PlayerController : MonoBehaviour
     {
        if (Input.GetMouseButton(0))
         {
-            if (animationController.AnimatorIsPlaying("2Hand-Sword-Attack1")) return;
-            else playerMovement.canMove = true;
-
-            if (equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.locksMotion)
+            if (animationController.AnimatorIsPlaying("2Hand-Sword-Attack1"))
             {
-                playerMovement.canMove = false;
+              return;
             }
-            animationController.PlayAnimation("2Hand-Sword-Attack1"); 
+            else
+            {
+              animationController.SetSpeed(equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.AttackSpeed + GetComponent<BaseStats>().GetStat(Stat.AttackSpeed));
+              Debug.Log(equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.AttackSpeed + GetComponent<BaseStats>().GetStat(Stat.AttackSpeed));
+              if (equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.locksMotion)
+              {
+                  playerMovement.canMove = false;
+              }
+              else
+              {
+                playerMovement.canMove = true;
+              }
+              animationController.PlayAnimation("2Hand-Sword-Attack1");
+            }
+
         }
         else if (Input.GetMouseButtonUp(1))
         {
@@ -62,13 +73,9 @@ public class PlayerController : MonoBehaviour
         {
             GetComponent<PlayerHealth>().TakeDamage(10, true);
         }
-      
+
     }
-    private void Attack ()
-    {
-        State = PlayerStates.Attacking;
-    
-    }
+
 
 
 }

@@ -13,8 +13,8 @@ public enum Stat
     Health,
     Damage,
     AttackSpeed,
-    CritDamage, 
-    CritChance 
+    CritDamage,
+    CritChance
 }
 
 
@@ -28,7 +28,7 @@ public class BaseStats : MonoBehaviour
     {
         WeaponLevels.ForEach(weapon =>
         {
-            weapon.Level = 1;                             
+            weapon.Level = 1;
             weapon.MaxExp = 5;
         });
     }
@@ -36,8 +36,9 @@ public class BaseStats : MonoBehaviour
     {
         return WeaponLevels.Find(weapon => weapon.weaponType == CurrentWeapon).AddExp();
     }
-    public int GetStat(Stat stat)
+    public float GetStat(Stat stat)
     {
+    
         return Progression.GetStat(stat, WeaponLevels.Find(weapon => weapon.weaponType == CurrentWeapon));
     }
 }

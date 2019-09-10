@@ -19,12 +19,12 @@ public class BaseSkill
             LevelUp();
             return true;
         }
-        return false; 
+        return false;
     }
     private void LevelUp()
     {
         Exp = 0;
-        MaxExp += 3;
-        Level++; 
+        MaxExp += 5;
+        Level++;
     }
 }

@@ -25,10 +25,14 @@ public class AnimationController : MonoBehaviour
     {
         return AnimatorIsPlaying() && animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
+    public void SetSpeed(float speed)
+    {
+      animator.speed = speed;
+    }
     public void UpdateAnimator(float forwardAmount, float turnAmount)
     {
        animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
-       animator.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime); 
+       animator.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime);
     }
     public void PlayAnimation(string anim)
     {
@@ -41,18 +45,18 @@ public class AnimationController : MonoBehaviour
     {
         equipmentController.equipmentSpawn.GetComponentInChildren<BoxCollider>().enabled = true;
     }
-    private void Hit() 
+    private void Hit()
     {
         equipmentController.equipmentSpawn.GetComponentInChildren<BoxCollider>().enabled = false;
         playerMovement.canMove = true;
     }
      private void MeleeEnd()
     {
-       
+
     }
     IEnumerator HitCoroutine()
     {
         yield return new WaitForSeconds(0.1f);
-       
+
     }
 }

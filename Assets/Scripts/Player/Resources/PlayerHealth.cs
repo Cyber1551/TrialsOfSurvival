@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour 
+public class PlayerHealth : MonoBehaviour
 {
     int BaseMaxHealth = 100;
     public int MaxHealth;
@@ -16,7 +16,7 @@ public class PlayerHealth : MonoBehaviour
     private void OnEnable()
     {
         HealthBar.SetHealth(this);
-        MaxHealth = BaseMaxHealth + GetComponent<BaseStats>().GetStat(Stat.Health);
+        MaxHealth = BaseMaxHealth + (int)Mathf.Round(GetComponent<BaseStats>().GetStat(Stat.Health));
         Health = MaxHealth;
         HealthBar.UpdateMaxHealth(Health, MaxHealth);
     }
@@ -33,9 +33,9 @@ public class PlayerHealth : MonoBehaviour
     public void UpdateHealth()
     {
         int currMaxHealth = MaxHealth;
-        MaxHealth = BaseMaxHealth + GetComponent<BaseStats>().GetStat(Stat.Health);
+        MaxHealth = BaseMaxHealth + (int)Mathf.Round(GetComponent<BaseStats>().GetStat(Stat.Health));
 
-        int diff = MaxHealth - currMaxHealth; 
+        int diff = MaxHealth - currMaxHealth;
         Debug.Log(diff);
         Health += diff;
         HealthBar.UpdateMaxHealth(Health, MaxHealth);
