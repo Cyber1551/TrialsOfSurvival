@@ -10,6 +10,7 @@ public class PlayerProgression : ScriptableObject
     {
 
         ProgressionStat weaponStat = weaponProgressionTypes.Find(w => w.weaponType == weapon.weaponType).stats.Find(s => s.stat == stat);
+       Debug.Log(weaponStat);
         if (weaponStat == null)
         {
           return 0;

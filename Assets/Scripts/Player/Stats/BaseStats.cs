@@ -5,8 +5,9 @@ using UnityEngine;
 
 public enum WeaponType
 {
-    Sword,
-    Bow
+    Unarmed = 0,
+    Sword = 1,
+    Bow = 2
 }
 public enum Stat
 {
@@ -20,7 +21,7 @@ public enum Stat
 
 public class BaseStats : MonoBehaviour
 {
-    [SerializeField] WeaponType CurrentWeapon;
+    [SerializeField] public WeaponType CurrentWeapon;
     [SerializeField] List<BaseSkill> WeaponLevels;
     [SerializeField] PlayerProgression Progression;
 
@@ -32,13 +33,18 @@ public class BaseStats : MonoBehaviour
             weapon.MaxExp = 5;
         });
     }
+
+    public void SetWeaponType(WeaponType type)
+    {
+      CurrentWeapon = type;
+    }
     public bool AddExp()
     {
         return WeaponLevels.Find(weapon => weapon.weaponType == CurrentWeapon).AddExp();
     }
     public float GetStat(Stat stat)
     {
-    
+
         return Progression.GetStat(stat, WeaponLevels.Find(weapon => weapon.weaponType == CurrentWeapon));
     }
 }

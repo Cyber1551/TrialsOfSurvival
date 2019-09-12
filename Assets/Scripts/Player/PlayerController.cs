@@ -3,8 +3,7 @@
 public enum PlayerStates
 {
    Idle,
-   Moving,
-   Attacking
+   Moving
 }
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(AnimationController))]
@@ -14,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput;
     public AnimationController animationController;
     public GameObject testAttack;
-
+    public bool isAttacking = false;
     public PlayerStates State = PlayerStates.Idle;
     private PlayerMovement playerMovement;
     float forwardAmount;
@@ -23,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
     private EquipmentController equipmentController;
     public BaseEquipment equippedWeapon;
-
+    public EquipmentAnimations animations;
     public int critChanceTest = 1;
 
     // Start is called before the first frame update
@@ -41,14 +40,14 @@ public class PlayerController : MonoBehaviour
     {
        if (Input.GetMouseButton(0))
         {
-            if (animationController.AnimatorIsPlaying("2Hand-Sword-Attack1"))
+            if (isAttacking)
             {
               return;
             }
             else
             {
-              animationController.SetSpeed(equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.AttackSpeed + GetComponent<BaseStats>().GetStat(Stat.AttackSpeed));
-              Debug.Log(equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.AttackSpeed + GetComponent<BaseStats>().GetStat(Stat.AttackSpeed));
+              //animationController.SetSpeed(equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.AttackSpeed + GetComponent<BaseStats>().GetStat(Stat.AttackSpeed));
+              //Debug.Log(equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.AttackSpeed + GetComponent<BaseStats>().GetStat(Stat.AttackSpeed));
               if (equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.locksMotion)
               {
                   playerMovement.canMove = false;
@@ -57,7 +56,16 @@ public class PlayerController : MonoBehaviour
               {
                 playerMovement.canMove = true;
               }
-              animationController.PlayAnimation("2Hand-Sword-Attack1");
+              switch(GetComponent<BaseStats>().CurrentWeapon)
+              {
+                case WeaponType.Sword:
+                  animationController.PlayAnimation(animations.GetAnimation(WeaponType.Sword).animations[0].name);
+                break;
+                case WeaponType.Bow:
+                  animationController.PlayAnimation(animations.GetAnimation(WeaponType.Bow).animations[0].name);
+                break;
+              }
+
             }
 
         }
@@ -71,11 +79,33 @@ public class PlayerController : MonoBehaviour
         }
        else if (Input.GetKeyUp(KeyCode.I))
         {
-            GetComponent<PlayerHealth>().TakeDamage(10, true);
+            equipmentController.SetEquipmentType(WeaponType.Unarmed);
         }
+        else if (Input.GetKeyUp(KeyCode.O))
+         {
+             equipmentController.SetEquipmentType(WeaponType.Sword);
+         }
+         else if (Input.GetKeyUp(KeyCode.P))
+          {
+              equipmentController.SetEquipmentType(WeaponType.Bow);
+          }
+
+          State = SetState();
 
     }
 
+    public PlayerStates SetState()
+    {
+      if (Vector3.Distance(Vector3.zero, playerMovement.moveVelocity) > 0)
+      {
+        return PlayerStates.Moving;
+      }
+      else if (playerMovement.moveVelocity == Vector3.zero)
+      {
+        return PlayerStates.Idle;
+      }
 
+      return PlayerStates.Idle;
+    }
 
 }

@@ -10,27 +10,30 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private PlayerInput playerInput;
     private AnimationController animationController;
-    private Vector3 lookPos;
+    private PlayerController playerController;
+    public  Vector3 lookPos;
     private Vector3 moveInput;
-    private Vector3 moveVelocity;
+    public  Vector3 moveVelocity;
     private float forwardAmount;
     private float turnAmount;
     Transform camTransform;
     Vector3 camForward;
     Vector3 move;
     public bool canMove = true;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         playerInput = PlayerInput.Instance;
         animationController = GetComponent<AnimationController>();
         camTransform = Camera.main.transform;
+        playerController = GetComponent<PlayerController>();
     }
     // Update is called once per frame
     void Update()
     {
-        
-        
+
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
@@ -43,8 +46,8 @@ public class PlayerMovement : MonoBehaviour
             Vector3 lookDir = lookPos - transform.position;
             lookDir.y = 0;
             transform.LookAt(transform.position + lookDir, Vector3.up);
-        
-        
+
+
         if (canMove)
         {
             moveInput = new Vector3(playerInput.Horizontal, 0f, playerInput.Vertical);
@@ -52,9 +55,9 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            moveVelocity = Vector3.zero ;
+            moveVelocity = Vector3.zero;
         }
-        
+
     }
     private void FixedUpdate()
     {
