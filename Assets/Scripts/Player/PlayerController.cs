@@ -46,9 +46,10 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-              //animationController.SetSpeed(equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.AttackSpeed + GetComponent<BaseStats>().GetStat(Stat.AttackSpeed));
-              //Debug.Log(equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.AttackSpeed + GetComponent<BaseStats>().GetStat(Stat.AttackSpeed));
-              if (equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.locksMotion)
+                //animationController.SetSpeed(equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.AttackSpeed + GetComponent<BaseStats>().GetStat(Stat.AttackSpeed));
+                //Debug.Log(equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.AttackSpeed + GetComponent<BaseStats>().GetStat(Stat.AttackSpeed));
+   
+              if (equippedWeapon.locksMotion)
               {
                   playerMovement.canMove = false;
               }
@@ -56,8 +57,12 @@ public class PlayerController : MonoBehaviour
               {
                 playerMovement.canMove = true;
               }
+                Debug.Log("UH");
               switch(GetComponent<BaseStats>().CurrentWeapon)
               {
+                case WeaponType.Unarmed:
+                  animationController.PlayAnimation(animations.GetAnimation(WeaponType.Unarmed).animations[0].name);
+                break;
                 case WeaponType.Sword:
                   animationController.PlayAnimation(animations.GetAnimation(WeaponType.Sword).animations[0].name);
                 break;
@@ -69,16 +74,9 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-        else if (Input.GetMouseButtonUp(1))
+        else if (Input.GetKeyUp(KeyCode.I))
         {
-            if (equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.locksMotion)
-            {
-                playerMovement.canMove = false;
-            }
-            animationController.PlayAnimation("2Hand-Sword-Attack2");
-        }
-       else if (Input.GetKeyUp(KeyCode.I))
-        {
+          
             equipmentController.SetEquipmentType(WeaponType.Unarmed);
         }
         else if (Input.GetKeyUp(KeyCode.O))

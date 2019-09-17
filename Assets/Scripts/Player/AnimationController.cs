@@ -55,12 +55,21 @@ private void AnimationStart()
 #region Melee
     private void MeleeStart()
     {
-      AnimationStart();
-        equipmentController.equipmentSpawn.GetComponentInChildren<BoxCollider>().enabled = true;
+        AnimationStart();
+        GameObject[] weapons = GameObject.FindGameObjectsWithTag("Weapon");
+        foreach(GameObject obj in weapons)
+        {
+            obj.GetComponent<BoxCollider>().enabled = true;
+        }
+        
     }
     private void Hit()
     {
-        equipmentController.equipmentSpawn.GetComponentInChildren<BoxCollider>().enabled = false;
+        GameObject[] weapons = GameObject.FindGameObjectsWithTag("Weapon");
+        foreach (GameObject obj in weapons)
+        {
+            obj.GetComponent<BoxCollider>().enabled = false;
+        }
         playerMovement.canMove = true;
     }
 #endregion
@@ -69,7 +78,7 @@ private void AnimationStart()
     private void Shoot()
     {
       GameObject projectile = playerController.animations.GetAnimation(WeaponType.Bow).helperObjects[0];
-      GameObject proj = Instantiate(projectile, equipmentController.equipmentSpawn.position, Quaternion.LookRotation(transform.up, transform.forward));
+      GameObject proj = Instantiate(projectile, transform.position, Quaternion.LookRotation(transform.up, transform.forward));
       proj.transform.localScale = new Vector3(2, 2, 2);
       float testCharge = 1;
       Vector3 destination = transform.position + (15 * testCharge) * proj.transform.up;

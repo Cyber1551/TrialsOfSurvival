@@ -11,7 +11,7 @@ public class EquipmentAnimations : ScriptableObject
   public class WeaponAnimation
   {
     public WeaponType Type;
-    public string spawnPoint;
+    public string[] spawnPoint;
     public List<AnimationClip> animations;
     public List<GameObject> helperObjects; //Projectiles, etc
 

@@ -24,19 +24,22 @@ public class Enemy : MonoBehaviour
 
     private void InitDamage(Collider other)
     {
-        if (GameAssets.I.player.GetComponent<BaseStats>().AddExp())
+        PlayerController player = GameAssets.I.player;
+        BaseStats baseStats = player.GetComponent<BaseStats>();
+
+        if (baseStats.AddExp())
         {
-            GameAssets.I.player.GetComponent<PlayerHealth>().UpdateHealth();
+            player.GetComponent<PlayerHealth>().UpdateHealth();
         }
         
-        int damage = GameAssets.I.player.GetComponentInChildren<Equipment>().equipment.Damage + (int)Mathf.Round(GameAssets.I.player.GetComponent<BaseStats>().GetStat(Stat.Damage));
+        int damage = player.GetComponentInChildren<Equipment>().equipment.Damage + (int)Mathf.Round(baseStats.GetStat(Stat.Damage));
         int chance = Random.Range(0, 100);
         bool isCrit = false;
-        if (chance <= GameAssets.I.player.critChanceTest)
+        if (chance <= player.critChanceTest)
         {
             isCrit = true;
             damage += damage * 2;
-            GameAssets.I.player.critChanceTest += 1;
+            player.critChanceTest += 1;
         }
         GetComponent<EnemyHealth>().TakeDamage(damage, isCrit);
     }

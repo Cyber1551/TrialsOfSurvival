@@ -7,7 +7,7 @@ public class Projectile : MonoBehaviour
 {
     Rigidbody rb;
     public Vector3? Destination = null;
-    private float Speed = 10;
+    private float Speed = 15;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -31,12 +31,12 @@ public class Projectile : MonoBehaviour
             }
             else
             {
-                Vector3 targetDir = dest - transform.position;
-                Vector3 newDir = Vector3.RotateTowards(transform.forward, transform.up, Time.deltaTime * Speed, 0.0f);
+                
                 //transform.rotation = Quaternion.LookRotation(newDir);
                 transform.position = Vector3.MoveTowards(transform.position, dest, Time.deltaTime * Speed);
                 //rb.MovePosition(transform.position + transform.up * Time.fixedDeltaTime * Speed);
                 //rb.velocity = transform.up * distanceToDestination * Speed;
+                
             }
             
             
