@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     Transform camTransform;
     Vector3 camForward;
     Vector3 move;
+
     public bool canMove = true;
 
     private void Start()
@@ -32,8 +33,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
@@ -45,8 +44,11 @@ public class PlayerMovement : MonoBehaviour
             }
             Vector3 lookDir = lookPos - transform.position;
             lookDir.y = 0;
+        
+                
+            
+    
             transform.LookAt(transform.position + lookDir, Vector3.up);
-
 
         if (canMove)
         {
@@ -77,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
 
         Move();
         rb.MovePosition(rb.position + moveVelocity * Time.fixedDeltaTime);
+     
     }
     void Move()
     {

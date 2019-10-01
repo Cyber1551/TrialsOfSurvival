@@ -16,7 +16,7 @@ public class PlayerHealth : MonoBehaviour
     private void OnEnable()
     {
         HealthBar.SetHealth(this);
-        MaxHealth = BaseMaxHealth + (int)Mathf.Round(GetComponent<BaseStats>().GetStat(Stat.Health));
+        //MaxHealth = BaseMaxHealth + (int)Mathf.Round(GetComponent<BaseStats>().GetStat(Stat.Health));
         Health = MaxHealth;
         HealthBar.UpdateMaxHealth(Health, MaxHealth);
     }

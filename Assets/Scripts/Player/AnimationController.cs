@@ -6,14 +6,14 @@ using UnityEngine;
 public class AnimationController : MonoBehaviour
 {
     private Animator animator;
-    private EquipmentController equipmentController;
     private PlayerMovement playerMovement;
     private PlayerController playerController;
+    public GameObject TestMagicCircle;
+    public Transform magicT;
     // Start is called before the first frame update
     void Awake()
     {
         animator = GetComponent<Animator>();
-        equipmentController = GetComponent<EquipmentController>();
         playerMovement = GetComponent<PlayerMovement>();
         playerController = GetComponent<PlayerController>();
     }
@@ -23,10 +23,6 @@ public class AnimationController : MonoBehaviour
         return animator.GetCurrentAnimatorStateInfo(0).length >
                animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }
-    public void SetWeaponType(int et)
-    {
-        animator.SetInteger("EquippedWeapon", et);
-    }
     public bool AnimatorIsPlaying(string stateName)
     {
         return AnimatorIsPlaying() && animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
@@ -34,6 +30,11 @@ public class AnimationController : MonoBehaviour
     public void SetSpeed(float speed)
     {
       animator.speed = speed;
+      
+    }
+    public void SetBool(string name, bool val)
+    {
+        animator.SetBool(name, val);
     }
     public void UpdateAnimator(float forwardAmount, float turnAmount)
     {
@@ -46,55 +47,9 @@ public class AnimationController : MonoBehaviour
     }
     private void FootR() { }
     private void FootL() { }
-
-private void AnimationStart()
-{
-  playerController.isAttacking = true;
-}
-
-#region Melee
-    private void MeleeStart()
-    {
-        AnimationStart();
-        GameObject[] weapons = GameObject.FindGameObjectsWithTag("Weapon");
-        foreach(GameObject obj in weapons)
-        {
-            obj.GetComponent<BoxCollider>().enabled = true;
-        }
-        
-    }
-    private void Hit()
-    {
-        GameObject[] weapons = GameObject.FindGameObjectsWithTag("Weapon");
-        foreach (GameObject obj in weapons)
-        {
-            obj.GetComponent<BoxCollider>().enabled = false;
-        }
-        playerMovement.canMove = true;
-    }
-#endregion
-
-#region Ranged
     private void Shoot()
     {
-      GameObject projectile = playerController.animations.GetAnimation(WeaponType.Bow).helperObjects[0];
-      GameObject proj = Instantiate(projectile, transform.position, Quaternion.LookRotation(transform.up, transform.forward));
-      proj.transform.localScale = new Vector3(2, 2, 2);
-      float testCharge = 1;
-      Vector3 destination = transform.position + (15 * testCharge) * proj.transform.up;
-      Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-      //proj.GetComponent<Rigidbody>().velocity = proj.transform.up * 10;
-      proj.GetComponent<Projectile>().Destination = destination;
-       
+        Instantiate(TestMagicCircle, transform.position + new Vector3(0, 1, 0), Quaternion.Euler(-90, 0, 0));
     }
-#endregion
-     private void AnimationEnd()
-    {
-      playerController.isAttacking = false;
-    }
-    IEnumerator HitCoroutine()
-    {
-        yield return new WaitForSeconds(0.1f);
 
-    }
 }

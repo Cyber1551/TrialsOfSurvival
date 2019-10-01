@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
             player.GetComponent<PlayerHealth>().UpdateHealth();
         }
         
-        int damage = player.GetComponentInChildren<Equipment>().equipment.Damage + (int)Mathf.Round(baseStats.GetStat(Stat.Damage));
+        int damage = (int)Mathf.Round(baseStats.GetStat(Stat.Damage));
         int chance = Random.Range(0, 100);
         bool isCrit = false;
         if (chance <= player.critChanceTest)

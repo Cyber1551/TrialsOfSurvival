@@ -19,10 +19,6 @@ public class PlayerController : MonoBehaviour
     float forwardAmount;
     float turnAmount;
     private RaycastHit hit;
-
-    private EquipmentController equipmentController;
-    public BaseEquipment equippedWeapon;
-    public EquipmentAnimations animations;
     public int critChanceTest = 1;
 
     // Start is called before the first frame update
@@ -31,79 +27,21 @@ public class PlayerController : MonoBehaviour
         playerInput = PlayerInput.Instance;
         playerMovement = GetComponent<PlayerMovement>();
         animationController = GetComponent<AnimationController>();
-        equipmentController = GetComponent<EquipmentController>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-       if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
-            if (isAttacking)
-            {
-              return;
-            }
-            else
-            {
-                //animationController.SetSpeed(equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.AttackSpeed + GetComponent<BaseStats>().GetStat(Stat.AttackSpeed));
-                //Debug.Log(equipmentController.equipmentSpawn.GetComponentInChildren<Equipment>().equipment.AttackSpeed + GetComponent<BaseStats>().GetStat(Stat.AttackSpeed));
-   
-              if (equippedWeapon.locksMotion)
-              {
-                  playerMovement.canMove = false;
-              }
-              else
-              {
-                playerMovement.canMove = true;
-              }
-                Debug.Log("UH");
-              switch(GetComponent<BaseStats>().CurrentWeapon)
-              {
-                case WeaponType.Unarmed:
-                  animationController.PlayAnimation(animations.GetAnimation(WeaponType.Unarmed).animations[0].name);
-                break;
-                case WeaponType.Sword:
-                  animationController.PlayAnimation(animations.GetAnimation(WeaponType.Sword).animations[0].name);
-                break;
-                case WeaponType.Bow:
-                  animationController.PlayAnimation(animations.GetAnimation(WeaponType.Bow).animations[0].name);
-                break;
-              }
-
-            }
-
+            animationController.SetBool("Casting", true);
         }
-        else if (Input.GetKeyUp(KeyCode.I))
+        else
         {
-          
-            equipmentController.SetEquipmentType(WeaponType.Unarmed);
+            animationController.SetBool("Casting", false);
         }
-        else if (Input.GetKeyUp(KeyCode.O))
-         {
-             equipmentController.SetEquipmentType(WeaponType.Sword);
-         }
-         else if (Input.GetKeyUp(KeyCode.P))
-          {
-              equipmentController.SetEquipmentType(WeaponType.Bow);
-          }
 
-          State = SetState();
-
-    }
-
-    public PlayerStates SetState()
-    {
-      if (Vector3.Distance(Vector3.zero, playerMovement.moveVelocity) > 0)
-      {
-        return PlayerStates.Moving;
-      }
-      else if (playerMovement.moveVelocity == Vector3.zero)
-      {
-        return PlayerStates.Idle;
-      }
-
-      return PlayerStates.Idle;
     }
 
 }
