@@ -6,13 +6,17 @@ using UnityEngine.UI;
 [RequireComponent(typeof(EnemyHealth))]
 public class Enemy : MonoBehaviour
 {
-
+   
+    private void OnParticleCollision(GameObject other)
+    {
+        InitDamage(null);
+    }
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.tag);
+       
         if (other.gameObject.CompareTag("Weapon"))
         {
-            
+
             InitDamage(other);
         }
         if (other.gameObject.CompareTag("Projectile"))
@@ -25,21 +29,29 @@ public class Enemy : MonoBehaviour
     private void InitDamage(Collider other)
     {
         PlayerController player = GameAssets.I.player;
-        BaseStats baseStats = player.GetComponent<BaseStats>();
 
-        if (baseStats.AddExp())
-        {
-            player.GetComponent<PlayerHealth>().UpdateHealth();
-        }
-        
-        int damage = (int)Mathf.Round(baseStats.GetStat(Stat.Damage));
+
+        int damage = Mathf.RoundToInt(player.GetStat("PhysicalDamage").Value);
         int chance = Random.Range(0, 100);
         bool isCrit = false;
-        if (chance <= player.critChanceTest)
+        if (chance <= player.GetStat("CritChance").Value)
         {
             isCrit = true;
-            damage += damage * 2;
-            player.critChanceTest += 1;
+            Debug.Log(player.GetStat("CritDamage").Value / 100);
+            damage += Mathf.RoundToInt((float)damage * ((float)player.GetStat("CritDamage").Value / 100));
+            player.GetStat("PhysicalDamage").Value *= 2;
+            player.GetStat("CritChance").Value += 5;
+        }
+        float ls = player.GetStat("LifeSteal").Value;
+        
+        if (ls > 0 && player.playerHealth.Health < player.playerHealth.MaxHealth)
+        {
+            int lsAmount = Mathf.RoundToInt((ls / 100) * damage);
+            if (lsAmount > 0)
+            {
+                player.playerHealth.HealDamage(lsAmount, isCrit);
+            }
+           
         }
         GetComponent<EnemyHealth>().TakeDamage(damage, isCrit);
     }

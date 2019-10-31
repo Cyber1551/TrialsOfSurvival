@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    int BaseMaxHealth = 100;
+    int BaseMaxHealth = int.MaxValue;
     public int MaxHealth;
     public int Health;
     bool isDead = false;
     public PlayerHealthBar HealthBar;
 
-    public event Action<int, int, int, bool> OnHealthChanged = delegate { };
+    public event Action<int, int, int, bool, bool> OnPlayerHealthChanged = delegate { };
 
     private void OnEnable()
     {
@@ -20,24 +20,27 @@ public class PlayerHealth : MonoBehaviour
         Health = MaxHealth;
         HealthBar.UpdateMaxHealth(Health, MaxHealth);
     }
+    public void HealDamage(int amount, bool isCrit)
+    {
+
+        Health += amount;
+        if (Health > MaxHealth)
+        {
+            Health = MaxHealth;
+        }
+        OnPlayerHealthChanged(Health, MaxHealth, amount, isCrit, true);
+        
+    }
     public void TakeDamage(int amount, bool isCrit)
     {
+
         Health -= amount;
-        OnHealthChanged(Health, MaxHealth, amount, isCrit);
+        OnPlayerHealthChanged(Health, MaxHealth, amount, isCrit, false);
         if (Health <= 0)
         {
             Destroy(this.gameObject);
         }
     }
 
-    public void UpdateHealth()
-    {
-        int currMaxHealth = MaxHealth;
-        MaxHealth = BaseMaxHealth + (int)Mathf.Round(GetComponent<BaseStats>().GetStat(Stat.Health));
-
-        int diff = MaxHealth - currMaxHealth;
-        Debug.Log(diff);
-        Health += diff;
-        HealthBar.UpdateMaxHealth(Health, MaxHealth);
-    }
+    
 }

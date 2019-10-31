@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInput playerInput;
     private AnimationController animationController;
     private PlayerController playerController;
-    public  Vector3 lookPos;
+    public Vector3 lookPos;
     private Vector3 moveInput;
     public  Vector3 moveVelocity;
     private float forwardAmount;

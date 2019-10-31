@@ -21,17 +21,22 @@ public class PlayerHealthBar : MonoBehaviour
         damagedColor.a = 0f;
         DamagedBar.color = damagedColor;
     }
+    private void Start()
+    {
+        transform.SetAsLastSibling();
+    }
     public void SetHealth(PlayerHealth health)
     {
         this.health = health;
         healthText.text = "" + health.Health;
-        this.health.OnHealthChanged += HandleHealthChanged;
+        this.health.OnPlayerHealthChanged += HandleHealthChanged;
     }
-    private void HandleHealthChanged(int Hp, int MaxHealth, int amount, bool isCrit)
+    private void HandleHealthChanged(int Hp, int MaxHealth, int amount, bool isCrit, bool isHeal)
     {
+
         float hpPercent = (float)Hp / (float)MaxHealth;
         Vector3 randomPos = new Vector3(Random.Range(-1.5f, 1.5f), 2.25f, Random.Range(0f, 0.25f));
-        DamagePopup.Create(health.transform.position + randomPos, transform.parent, amount, isCrit);
+        DamagePopup.Create(health.transform.position + randomPos, transform.parent, amount, isCrit, isHeal);
         if (damagedColor.a <= 0)
         {
             DamagedBar.fillAmount = foreground.fillAmount;
@@ -49,6 +54,7 @@ public class PlayerHealthBar : MonoBehaviour
         healthText.text = "" + Hp;
         StartCoroutine(ChangeToPct(hpPercent));
     }
+   
     private IEnumerator ChangeToPct(float pc)
     {
 
@@ -77,6 +83,6 @@ public class PlayerHealthBar : MonoBehaviour
     }
     private void OnDestroy()
     {
-        health.OnHealthChanged -= HandleHealthChanged;
+        health.OnPlayerHealthChanged -= HandleHealthChanged;
     }
 }

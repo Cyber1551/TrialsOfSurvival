@@ -13,11 +13,11 @@ public class DamagePopup : MonoBehaviour
     private Vector3 spawnPosition;
     [SerializeField] private float damageOffset = 0.45f;
     private Vector3 movementOffset;
-    public static DamagePopup Create(Vector3 position, Transform parent, int damageAmount, bool isCrit)
+    public static DamagePopup Create(Vector3 position, Transform parent, int damageAmount, bool isCrit, bool isHeal)
     { 
         Transform damagePopupTransform = Instantiate(GameAssets.I.damagePopupPrefab, parent);
         DamagePopup damagePopupScript = damagePopupTransform.GetComponent<DamagePopup>();
-        damagePopupScript.Setup(damageAmount, position, isCrit);
+        damagePopupScript.Setup(damageAmount, position, isCrit, isHeal);
         return damagePopupScript;
     }
 
@@ -28,7 +28,7 @@ public class DamagePopup : MonoBehaviour
         color = textMesh.color;
         disappearTimer = DISAPPEAR_TIMER_MAX;
     }
-   public void Setup(int damageAmount, Vector3 spawn, bool isCrit)
+   public void Setup(int damageAmount, Vector3 spawn, bool isCrit, bool isHeal)
     {
         textMesh.SetText(damageAmount.ToString());
          
@@ -36,13 +36,13 @@ public class DamagePopup : MonoBehaviour
         {
             //Normal
             textMesh.fontSize = 25;
-            color = Color.yellow; 
+            color = (isHeal) ? Color.green : Color.yellow; 
         }
         else
         {
             //Critical Hit
             textMesh.fontSize = 30;
-            color = Color.red;
+            color = (isHeal) ? Color.green : Color.red;
         }
         textMesh.color = color;
         spawnPosition = spawn;

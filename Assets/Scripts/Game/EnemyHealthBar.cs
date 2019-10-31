@@ -28,11 +28,12 @@ public class EnemyHealthBar : MonoBehaviour
         healthText.text = "" + health.Hp;
         this.health.OnHealthChanged += HandleHealthChanged;
     }
-    private  void HandleHealthChanged(int Hp, int MaxHealth, int amount, bool isCrit)
+    private  void HandleHealthChanged(int Hp, int MaxHealth, int amount, bool isCrit, bool isHeal)
     {
+
         float hpPercent = (float)Hp / (float)MaxHealth;
         Vector3 randomPos = new Vector3(Random.Range(-1.5f, 1.5f), 2.25f, Random.Range(0f, 0.25f));
-        DamagePopup.Create(health.transform.position + randomPos, transform.parent, amount, isCrit);  
+        DamagePopup.Create(health.transform.position + randomPos, transform.parent, amount, isCrit, isHeal);  
         if ( damagedColor.a <= 0)
         {
             DamagedBar.fillAmount = foreground.fillAmount;

@@ -5,10 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class AnimationController : MonoBehaviour
 {
-    private Animator animator;
+    public Animator animator;
     private PlayerMovement playerMovement;
     private PlayerController playerController;
-    public GameObject TestMagicCircle;
+    public GameObject Bullet;
     public Transform magicT;
     // Start is called before the first frame update
     void Awake()
@@ -32,24 +32,36 @@ public class AnimationController : MonoBehaviour
       animator.speed = speed;
       
     }
-    public void SetBool(string name, bool val)
-    {
-        animator.SetBool(name, val);
-    }
+
     public void UpdateAnimator(float forwardAmount, float turnAmount)
     {
        animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
        animator.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime);
     }
-    public void PlayAnimation(string anim)
-    {
-        animator.Play(anim);
-    }
+
     private void FootR() { }
     private void FootL() { }
+    private void AnimationStart()
+    {
+    }
     private void Shoot()
     {
-        Instantiate(TestMagicCircle, transform.position + new Vector3(0, 1, 0), Quaternion.Euler(-90, 0, 0));
+        Debug.Log("SHOOT");
+        Transform spawn = GameObject.Find("ProjectileSpawn").transform;
+        GameObject g= Instantiate(Bullet, spawn.position, Quaternion.identity);
+
+        var mousePos = Input.mousePosition;
+        mousePos.z = 13; // select distance = 10 units from the camera
+        Vector3 mPos = Camera.main.ScreenToWorldPoint(mousePos);
+        spawn.LookAt(mPos);
+       
+        g.GetComponent<Rigidbody>().AddForce(transform.forward * 750);
+
+        
+    }
+    private void AnimationEnd ()
+    {
+
     }
 
 }
